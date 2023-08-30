@@ -45,11 +45,20 @@ public class OrderService {
 
 
     public Integer getOrdersLeftAfterGivenTimeByPartnerId(String time, String partnerId) {
-        return orderRepository.getOrdersLeftAfterGivenTimeByPartnerId(time,partnerId);
+        String Time[]=time.split(":");
+        int newTime=Integer.parseInt(Time[0])*60+Integer.parseInt(Time[1]);
+        return orderRepository.getOrdersLeftAfterGivenTimeByPartnerId(newTime,partnerId);
     }
 
     public String getLastDeliveryTimeByPartnerId(String partnerId) {
-        return orderRepository.getLastDeliveryTimeByPartnerId(partnerId);
+        int time=orderRepository.getLastDeliveryTimeByPartnerId(partnerId);
+        String HH=Integer.toString(time/60);
+        String MM=Integer.toString(time%60);
+        if(HH.length()<2)
+            HH='0'+HH;
+        if(MM.length()<2)
+            MM='0'+MM;
+        return HH+MM;
     }
 
     public void deletePartnerById(String partnerId) {
