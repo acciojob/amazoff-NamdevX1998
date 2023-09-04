@@ -15,7 +15,7 @@ public class OrderService {
     }
 
     public void addPartner(String partnerId) {
-        orderRepository.partnerId(partnerId);
+        orderRepository.addPartner(partnerId);
     }
 
     public void addOrderPartnerPair(String orderId, String partnerId) {
@@ -58,7 +58,7 @@ public class OrderService {
             HH='0'+HH;
         if(MM.length()<2)
             MM='0'+MM;
-        return HH+MM;
+        return HH+":"+MM;
     }
 
     public void deletePartnerById(String partnerId) {

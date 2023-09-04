@@ -19,7 +19,7 @@ public class OrderRepository {
         orderMap.put(ID,order);
     }
 
-    public void partnerId(String partnerId) {
+    public void addPartner(String partnerId) {
         DeliveryPartner dp=new DeliveryPartner(partnerId);
         partnerMap.put(partnerId,dp);
     }
@@ -111,6 +111,8 @@ public class OrderRepository {
         if(Partner_OrdersMap.containsKey(partnerId)==false)
             return 0;
         DeliveryPartner dp=new DeliveryPartner(partnerId);
+        if(Partner_OrdersMap.containsKey(dp)==false)
+            return 0;
         List<Order>list= Partner_OrdersMap.get(dp);
         int maxi=0;
         for(Order o:list){
@@ -122,17 +124,18 @@ public class OrderRepository {
     public void deletePartnerById(String partnerId) {
         if(partnerMap.containsKey(partnerId)==false)
             return;
+        DeliveryPartner dp=partnerMap.get(partnerId);
         partnerMap.remove(partnerId);
 
-        if(Partner_OrdersMap.containsKey(partnerId)==false)
+        if(Partner_OrdersMap.containsKey(dp)==false)
             return;
 
         //delete entry of partner from Partner_OrdersMap
         List<Order>delete=new ArrayList<>();
-        for(Order order:Partner_OrdersMap.get(partnerId)){
+        for(Order order:Partner_OrdersMap.get(dp)){
             delete.add(order);
         }
-        Partner_OrdersMap.remove(partnerId);
+        Partner_OrdersMap.remove(dp);
 
         //delete orders from order_PartnerMap
         for(Order o:delete){
@@ -140,7 +143,6 @@ public class OrderRepository {
                order_PartnerMap.remove(o);
            }
         }
-
     }
 
     public void deleteOrderById(String orderId) {
@@ -158,6 +160,6 @@ public class OrderRepository {
         orderMap.remove(order);
 
         //remove order from partner-orders map
-        Partner_OrdersMap.get(dp).remove(order);
+        Partner_OrdersMap.get(dp).remove(order);   //imp
     }
 }
